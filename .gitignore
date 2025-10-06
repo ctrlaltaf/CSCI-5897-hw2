@@ -205,3 +205,59 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.ist
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.nav
+*.snm
+*.vrb
+*.run.xml
+*.xdv
+
+# Editor backup files
+*~
+*.swp
+*.bak
+*.backup
+
+# Output files
+*.pdf
+*.dvi
+*.ps
+
+# Build directories (optional)
+build/
+output/
+out/
+temp/
+
+# MacOS metadata
+.DS_Store
+
+# VSCode or other editor settings
+.vscode/
+.idea/
