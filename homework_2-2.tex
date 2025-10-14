@@ -20,6 +20,7 @@
 \usepackage{enumitem}
 \hypersetup{bookmarks=true, unicode=false, pdftoolbar=true, pdfmenubar=true, pdffitwindow=false, pdfstartview={FitH}, pdfcreator={Daniel Larremore}, pdfproducer={Daniel Larremore}, pdfkeywords={} {} {}, pdfnewwindow=true, colorlinks=true, linkcolor=blue, citecolor=Green, filecolor=magenta, urlcolor=cyan,}
 \usepackage[parfill]{parskip}
+\usepackage{float}
 
 \graphicspath{{../Notes/PythonFigs/}{./}}
 
@@ -35,7 +36,7 @@
 \begin{document}
 
 \lhead{{\bf Mathematical \& Computational Modeling of Infectious Diseases \\ 
-Homework 2}}
+Homework 2: Altaf Barelvi}}
 \rhead{{\bf D.B.\ Larremore\\2025}}
 \renewcommand{\headrulewidth}{0.4pt}
 
@@ -52,10 +53,50 @@ Homework 2}}
 	
 \begin{enumerate}[label=\alph*.]
 	\item Using your Forward Euler method, simulate the solution to the {\it normalized} SIS model discussed in class (Week 3) using $\beta=3$ and $\gamma=2$, and with $(s_0, i_0) = (0.99, 0.01)$. Create three plots ranging from $t=0$ to $t=25$. On the first, simulate using a step size $\Delta t=2$. On the second, use $\Delta t =1$. On the third, use $\Delta t = \tfrac{1}{2}$. In each plot, show only your solution's $I(t)$ in a red solid line, labeled as ``Forward Euler'', and then also plot the analytical solution from class in a black dashed line, labeled as ``Analytical.'' Please also set the y-axis range to $[0,0.5]$. 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{figures/sir_dt2.png}
+		\caption{Forward Euler and analytical solutions for the normalized SIS model with $\Delta t = 2$.}
+		\label{fig:sir_dt2}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{figures/sir_dt1.png}
+		\caption{Forward Euler and analytical solutions with $\Delta t = 1$.}
+		\label{fig:sir_dt1}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{figures/sir_dt0.5.png}
+		\caption{Forward Euler and analytical solutions with $\Delta t = 0.5$}
+		\label{fig:sir_dt05}
+	\end{figure}
 	\item Comment on what you see in your three plots. How does the step size affect our solution?
+	\par
+	For $\Delta t = 2$, We see that initially the forward method does not follow the same curve, and later on there is some oscilation. 
+	$\Delta t = 1$ follows the initial curve better than the previous but still is not perfect, and there is no oscilation.
+	$\Delta t = 0.5$ follows the initial curve the best out of the three and there is no oscilation.
+	The smaller the step size, the better the forward method's will closely follow the analytical solution.
 	\item Define the maximum absolute error for a simulation using a particular $\Delta t$ as $$E(\Delta t) = \max_{t} \big | I_{\text{Euler}, \Delta t} (t) - I_\text{analytical}(t) \big |\ .$$ Write a function that runs the appropriate simulation, computes the analytical solution, and returns $E$ without plotting. Share a link to your code for this problem.
+	\par
+	INSERT LINK LATER
 	\item Create a plot on log-log axes showing $E(\Delta t)$ vs $\Delta t$ for values $$\Delta t \in \{2,1,\tfrac{1}{2},\tfrac{1}{4},\tfrac{1}{8},\tfrac{1}{16},\tfrac{1}{32}\}$$
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{figures/max_abs_error.png}
+		\caption{Maximum absolute error on different delta time steps}
+		\label{fig:max_abs}
+	\end{figure}
 	\item Comment on what you observe in this plot, and comment on cases when you would want a larger or smaller step size, and why? Imagining yourself in an advisory position in your community, can you think of any scenario where there is a connection between the step size of your simulation and the ethics of your advice?
+	\par
+	For the largest time step, we see that the there is the highest max absolute error. However the rest of the time steps have generally the same range of errors.
+	The time step here represents, suppose in a community under an epidemic, how often the number of infections are measured.
+	Larger time steps could be applicable for a smaller community that has very little resources since monitoring in this situation is less resource intensive for the whole community.
+	However, as we see from our simulation, Larger time steps lead to calculations more prone to inaccuracy. Depending on the severity of the epidemic, one might decide that ethically it is okay to do a larger times step monitoring if the illness if not as severe.
+	Smaller time steps give you the benefit of being less prone to inaccuracy, however this is at the cost of more resources needed to keep monitoring this through an epidemic, and it is more difficult as the population scales.
+	I think ethically smaller time steps are more important if the disease is more severe, if the resources available can manage.
 \end{enumerate}
 
 \clearpage
@@ -74,8 +115,64 @@ The second team, led by Flynn Uenza, tells you that there are $210$ faculty and 
 		\end{pmatrix}
 	$$
 Whom do you trust more, Dan Pemic or Flynn Uenza? To answer this question, consider the self-consistency (or lack thereof) of each dataset. Explain your reasoning in words and include any calculations used to arrive at your conclusions. 
+\par
+\begin{equation}
+    N_F C_{F \to S} \approx N_S C_{S \to F}
+    \label{eq:self_consistency}
+\end{equation}
+
+\begin{align*}
+	\textbf{Dan Pemić:} \\
+	N_F &= 200, \quad N_S = 1800 \\
+	C_{F \to S} &= 43.5, \quad C_{S \to F} = 4.7 \\[6pt]
+	N_F C_{F \to S} &= 200 \times 43.5 = 8700 \\
+	N_S C_{S \to F} &= 1800 \times 4.7 = 8460 \\[6pt]
+	\text{Asymmetry} &= 
+	\frac{|8700 - 8460|}{\dfrac{8700 + 8460}{2}} 
+	= \mathbf{0.02797} \\[12pt]
+	%
+	\textbf{Flynn Uenza:} \\
+	N_F &= 210, \quad N_S = 1750 \\
+	C_{F \to S} &= 44.5, \quad C_{S \to F} = 4.8 \\[6pt]
+	N_F C_{F \to S} &= 210 \times 44.5 = 9345 \\
+	N_S C_{S \to F} &= 1750 \times 4.8 = 8400 \\[6pt]
+	\text{Asymmetry} &= 
+	\frac{|9345 - 8400|}{\dfrac{9345 + 8400}{2}} 
+	= \mathbf{0.10650}
+\end{align*}
+As shown in Equation~\ref{eq:self_consistency}, the total number of contacts from faculty to students should approximately equal the total number of contacts from students to faculty.
+By finding the asymmetry within both of the experiements we see that Dan has the lower asymmetry percentage of $2.797\%$
+while Flynn had $10.650\%$. Therefore I trust Dan's measurement more
 
 \item A straightforward fix to self-consistency issues is to ``symmetrize'' the rates. First, we compute the implied total number of intergroup contacts from faculty to students, and then compute the same from students to faculty. After averaging those two counts, divide by the appropriate population size to get per-person rates. Use this approach to symmetrize the two contact matrices. 
+\par
+\begin{align*}
+	\textbf{Dan Pemić:} \\
+	N_F C_{F \to S} &= 200 \times 43.5 = 8700 \\
+	N_S C_{S \to F} &= 1800 \times 4.7 = 8460 \\[6pt]
+	\text{Total average} &= \frac{8700 + 8460}{2} = 8580 \\[12pt]
+	\text{Contact (faculty $\to$ student)} &= \frac{8580}{200} = 42.9 \\[6pt]
+	\text{Contact (student $\to$ faculty)} &= \frac{8580}{1800} = 4.76 \\[12pt]
+	C_{\text{symetric}} &= 
+	\begin{pmatrix}
+	3.1 & 42.9 \\
+	4.76 & 25.0
+	\end{pmatrix}
+\end{align*}
+
+\begin{align*}
+	\textbf{Flynn Uenza:} \\
+	N_F C_{F \to S} &= 210 \times 44.5 = 9345 \\
+	N_S C_{S \to F} &= 1750 \times 4.8 = 8400 \\[6pt]
+	\text{Total average} &= \frac{9345 + 8400}{2} = 8872.5 \\[12pt]
+	\text{Contact (faculty $\to$ student)} &= \frac{8872.5}{210} = 42.25 \\[6pt]
+	\text{Contact (student $\to$ faculty)} &= \frac{8872.5}{1750} = 5.07 \\[12pt]
+	C_{\text{symetric}} &= 
+	\begin{pmatrix}
+	3.0 & 42.25 \\
+	5.07 & 25.1
+	\end{pmatrix}
+\end{align*}
 
 \item How different are these two symmetrized matrices, really? Answer the question by computing the ratio of $R_0$ under Pemic's data to $R_0$ under Uenza's data, assuming SIR models with otherwise identical parameters.
 
