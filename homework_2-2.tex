@@ -76,8 +76,8 @@ Homework 2: Altaf Barelvi}}
 	\item Comment on what you see in your three plots. How does the step size affect our solution?
 	\par
 	For $\Delta t = 2$, We see that initially the forward method does not follow the same curve, and later on there is some oscilation. 
-	$\Delta t = 1$ follows the initial curve better than the previous but still is not perfect, and there is no oscilation.
-	$\Delta t = 0.5$ follows the initial curve the best out of the three and there is no oscilation.
+	$\Delta t = 1$ follows the initial curve better than the previous but still is not perfect, and platteaus at the same value.
+	$\Delta t = 0.5$ follows the initial curve the best out of the three.
 	The smaller the step size, the better the forward method's will closely follow the analytical solution.
 	\item Define the maximum absolute error for a simulation using a particular $\Delta t$ as $$E(\Delta t) = \max_{t} \big | I_{\text{Euler}, \Delta t} (t) - I_\text{analytical}(t) \big |\ .$$ Write a function that runs the appropriate simulation, computes the analytical solution, and returns $E$ without plotting. Share a link to your code for this problem.
 	\par
@@ -91,10 +91,10 @@ Homework 2: Altaf Barelvi}}
 	\end{figure}
 	\item Comment on what you observe in this plot, and comment on cases when you would want a larger or smaller step size, and why? Imagining yourself in an advisory position in your community, can you think of any scenario where there is a connection between the step size of your simulation and the ethics of your advice?
 	\par
-	For the largest time step, we see that the there is the highest max absolute error. However the rest of the time steps have generally the same range of errors.
+	There is a positive linear correlation as the step size increases, the maximum absolute error also increases.
 	The time step here represents, suppose in a community under an epidemic, how often the number of infections are measured.
 	Larger time steps could be applicable for a smaller community that has very little resources since monitoring in this situation is less resource intensive for the whole community.
-	However, as we see from our simulation, Larger time steps lead to calculations more prone to inaccuracy. Depending on the severity of the epidemic, one might decide that ethically it is okay to do a larger times step monitoring if the illness if not as severe.
+	However, as we see from our simulation, larger time steps lead to calculations more prone to inaccuracy. Depending on the severity of the epidemic, one might decide that ethically it is okay to do a larger times step monitoring if the illness if not as severe.
 	Smaller time steps give you the benefit of being less prone to inaccuracy, however this is at the cost of more resources needed to keep monitoring this through an epidemic, and it is more difficult as the population scales.
 	I think ethically smaller time steps are more important if the disease is more severe, if the resources available can manage.
 \end{enumerate}
@@ -175,6 +175,55 @@ while Flynn had $10.650\%$. Therefore I trust Dan's measurement more
 \end{align*}
 
 \item How different are these two symmetrized matrices, really? Answer the question by computing the ratio of $R_0$ under Pemic's data to $R_0$ under Uenza's data, assuming SIR models with otherwise identical parameters.
+\par
+
+Suppose $\gamma = 1$ and $\beta = 1$.  
+We know that for a two-population system, the basic reproduction number $R_0$ is the largest eigenvalue of the contact matrix $C$:
+
+\begin{equation}
+    R_0 = \lambda_{\max}(C)
+\end{equation}
+
+where $C$ is the contact matrix.  
+For a $2 \times 2$ matrix, this can be computed by:
+
+\begin{equation}
+    R_0 = \frac{(c_{11} + c_{22}) + \sqrt{(c_{11} + c_{22})^2 - 4(c_{11}c_{22} - c_{12}c_{21})}}{2}
+\end{equation}
+
+\subsubsection*{Dan Pemić}
+
+\[
+C =
+\begin{pmatrix}
+3.1 & 42.9 \\
+4.76 & 25.0
+\end{pmatrix}
+\]
+
+\[
+R_0 \approx 32.0608995
+\]
+
+\subsubsection*{Flynn Uenza}
+
+\[
+C =
+\begin{pmatrix}
+3.0 & 42.25 \\
+5.07 & 25.1
+\end{pmatrix}
+\]
+
+\[
+R_0 \approx 32.388757
+\]
+\[
+\text{Ratio} = \frac{R_{0,\text{Pemić}}}{R_{0,\text{Uenza}}} 
+= \frac{32.0608995}{32.388757} 
+\approx 0.9899
+\]
+They are both within $\sim1\%$ which means they $R_0$ is essentially the same
 
 \end{enumerate}
 
@@ -182,8 +231,26 @@ while Flynn had $10.650\%$. Therefore I trust Dan's measurement more
 \item (Grad / EC): The goal of this problem is to get you to think about additional flavors of models that build on the SIR model backbone, and practice writing down flow diagrams and systems of differential equations. For each of the following situations please (i) draw a flow diagram with the SIR backbone in black, (ii) include any modifications in a second color, and (iii) write out your differential equations using the same color scheme. 
 \begin{enumerate}
 	\item Suppose that we want to model the possibility that the natural history of infection means that a person is infected {\it but not infectious} before becoming infected-and-infectious. Let the typical {\it latent} period---the time between exposure and infectiousness---last for $q$ days. Use the letter $E$ for this new compartment. Draw a flow diagram for the non-normalized system, and write a set of corresponding differential equations. 
+	\par
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{figures/3a.jpeg}
+		\label{fig:3a}
+	\end{figure}
 	\item Suppose that we want to model Hospitalization, with the following assumption: Infected folks either recover directly {\it or} they are hospitalized first and then recover. Let the direct recovery rate be $\gamma$, and suppose that there are 4 direct recoveries for every 1 hospitalization. Let the typical duration of a hospitalization be $\delta$ days. Use the letter $h$ for the hospitalized compartment. Draw a flow diagram for the normalized system, and write a set of corresponding differential equations. You should assume that folks in the hospital do not come into contact with anyone else during their hospital stay.
+	\par
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{figures/3b.jpeg}
+		\label{fig:3b}
+	\end{figure}
 	\item Suppose that we want to model an infectious disease that afflicts a growing population of bacteria, such that the infection follows an SIR model, the bacteria grow according to a logistic growth model with intrinsic growth rate $\alpha$ and carrying capacity $K$. Let all bacteria reproduce, but suppose that susceptible and recovered bacteria produce susceptible progeny, while infected bacteria produce infected progeny. The carrying capacity is shared by all three bacteria. 
+	\par
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{figures/3c.jpeg}
+		\label{fig:3c}
+	\end{figure}
 \end{enumerate}
 
 \end{enumerate}
